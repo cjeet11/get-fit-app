@@ -1,10 +1,31 @@
-import streamlit as stfrom datetime import date
-# Page Configurationst.set_page_config(page_title="Get Fit", page_icon=" ")
-st.title(" Get Fit: Your Personal Wellness Guide")
-# --- SIDEBAR: USER INFO ---st.sidebar.header("User Profile")name = st.sidebar.text_input("Full Name")dob = st.sidebar.date_input("Date of Birth", date(1995, 1, 1))weight = st.sidebar.number_input("Weight (kg)", min_value=10.0, max_value=200.0, value=70.0)height = st.sidebar.number_input("Height (cm)", min_value=50.0, max_value=250.0, value=170.0)diet_pref = st.sidebar.selectbox("Diet Preference", ["Vegetarian", "Non-Vegetarian"])
-# Calculate BMIbmi = round(weight / ((height/100)**2), 2)
-# --- MAIN DASHBOARD ---tab1, tab2, tab3, tab4 = st.tabs(["Fitness & Diet", "Daily Routine", "Mental Peace", "Pain Relief (Yoga)"])
-with tab1:    st.header(f"Personalized Plan for {name}")    st.metric("Your BMI", bmi)        col1, col2 = st.columns(2)    with col1:        st.subheader(" Workout Routine")        if bmi < 18.5:            st.write("- Muscle building focus\n- Low-intensity cardio\n- Hypertrophy training")        else:            st.write("- High-intensity interval training (HIIT)\n- Compound lifting\n- 30 min daily walk")                with col2:        st.subheader(" Diet Plan")        if diet_pref == "Vegetarian":            st.write("- Protein: Paneer, Lentils, Soya\n- Carbs: Oats, Brown Rice")        else:            st.write("- Protein: Chicken Breast, Eggs, Fish\n- Carbs: Sweet Potato, Quinoa")
-with tab2:    st.header(" Daily Cycle")    st.write(f"** Water Intake:** Goal {round(weight * 0.033, 1)} Liters/day")    st.progress(0.4) # Example progress    st.write("** Sleep Cycle:** Aim for 7-9 hours. Suggested: 10:30 PM - 6:30 AM")
-with tab3:    st.header(" Mental Peace")    st.info("Advice: Practice 4-7-8 breathing for 5 minutes before bed.")    st.write("- Disconnect from screens 1 hour before sleep.")    st.write("- Journal 3 things you are grateful for today.")
-with tab4:    st.header(" Pain Relief & Yoga")    part = st.selectbox("Select area of pain:", ["Lower Back", "Neck/Shoulders", "Knees"])        # Placeholder for Video Tutorials    if part == "Lower Back":        st.write("Try the **Child's Pose** and **Cat-Cow Stretch**.")        # Replace the URL below with actual yoga animation links        st.video("https://www.youtube.com/watch?v=2NQIPV77u88")     elif part == "Neck/Shoulders":        st.write("Perform gentle neck rotations and shoulder shrugs.")        st.video("https://www.youtube.com/watch?v=X3-gK_mS_6I")
+import streamlit as st
+
+# Setup
+st.set_page_config(page_title="Get Fit", page_icon="💪")
+
+# App Header
+st.title("💪 Get Fit")
+st.write("Welcome to your personal fitness journey!")
+
+# User Inputs
+name = st.text_input("Enter your name")
+weight = st.number_input("Weight (kg)", value=70.0)
+height = st.number_input("Height (cm)", value=170.0)
+
+if st.button("Calculate BMI"):
+    bmi = round(weight / ((height/100)**2), 2)
+    st.success(f"Hi {name}, your BMI is {bmi}")
+    
+    if bmi < 18.5:
+        st.info("Status: Underweight - Focus on nutrition and strength.")
+    elif 18.5 <= bmi <= 24.9:
+        st.success("Status: Healthy weight - Keep it up!")
+    else:
+        st.warning("Status: Overweight - Focus on cardio and calorie deficit.")
+
+# Features Section
+st.divider()
+st.subheader("Daily Goals")
+st.checkbox("Drank 3L of water")
+st.checkbox("7 hours of sleep")
+st.checkbox("10 mins Meditation")
